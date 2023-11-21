@@ -1,4 +1,4 @@
-const propNames = new Set(['id', 'className', 'textContent', 'onclick']);
+const propNames = new Set(["id", "className", "textContent", "onclick"]);
 
 /**
  * Создание элемента со свойствами и вложенными элементами
@@ -25,4 +25,14 @@ export function createElement(name, props = {}, ...children) {
   }
 
   return element;
+}
+
+// Генерация уникального кода
+export function getRandomNumber(min, max, state) {
+  let randomNumber;
+  do {
+    randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  } while (state.includes(randomNumber));
+  state.push(randomNumber);
+  return randomNumber;
 }

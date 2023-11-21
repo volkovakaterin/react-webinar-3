@@ -49,9 +49,14 @@ body {
   padding: 20px 10px 20px 20px;
 }
 
-.Item-title {
+.wrapper-text {
+  display: flex;
   width: 100%;
   padding: 20px 10px;
+}
+
+.Item-counter {
+  margin-left: 10px;
 }
 
 .Item-actions {
