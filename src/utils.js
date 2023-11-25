@@ -28,11 +28,15 @@ export function createElement(name, props = {}, ...children) {
 }
 
 // Генерация уникального кода
-export function getRandomNumber(min, max, state) {
-  let randomNumber;
-  do {
-    randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-  } while (state.includes(randomNumber));
-  state.push(randomNumber);
-  return randomNumber;
+export function generateCode(state) {
+  return state.latestCode + 1;
+}
+
+// Определение окончания слова раз
+export function formatCount(number) {
+  const cases = [2, 0, 1, 1, 1, 2];
+  const titles = ["раз", "раза", "раз"];
+  const index =
+    number % 100 > 4 && number % 100 < 20 ? 2 : cases[Math.min(number % 10, 5)];
+  return titles[index];
 }

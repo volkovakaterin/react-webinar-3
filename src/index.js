@@ -16,9 +16,7 @@ const list = [
 
 const store = new Store({
   list: list,
-  allCodes: list.map((item) => {
-    return item.code;
-  }),
+  latestCode: list[list.length - 1].code,
 });
 
 const root = createRoot(document.getElementById("root"));

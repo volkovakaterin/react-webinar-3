@@ -1,12 +1,14 @@
 import React from "react";
 import { createElement } from "./utils.js";
 import "./styles.css";
+import { formatCount } from "./utils.js";
 
 /**
  * Приложение
  * @param store {Store} Хранилище состояния приложения
  * @returns {React.ReactElement}
  */
+
 function App({ store }) {
   const list = store.getState().list;
 
@@ -31,7 +33,9 @@ function App({ store }) {
                   <div className="Item-title">{item.title}</div>
                   {item.counter && (
                     <div className="Item-counter">
-                      {`| Выделяли ${item.counter} раз`}
+                      {`| Выделяли ${item.counter} ${formatCount(
+                        item.counter
+                      )}`}
                     </div>
                   )}
                 </div>

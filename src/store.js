@@ -1,4 +1,4 @@
-import { getRandomNumber } from "./utils";
+import { generateCode } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -44,15 +44,17 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    const newCode = generateCode(this.getState());
     this.setState({
       ...this.state,
       list: [
         ...this.state.list,
         {
-          code: getRandomNumber(1, 100, this.state.allCodes),
+          code: newCode,
           title: "Новая запись",
         },
       ],
+      latestCode: newCode,
     });
   }
 
