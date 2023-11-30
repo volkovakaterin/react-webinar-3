@@ -1,5 +1,23 @@
 .Controls {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding: 20px;
+}
+
+.Controls-title {
+  margin-right: 15px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.Controls-info {
+  display: flex;
+  margin-right: 20px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.Controls-sum {
+  margin-left: 2px;
 }

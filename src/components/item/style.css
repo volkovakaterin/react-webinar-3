@@ -1,21 +1,28 @@
 .Item {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  padding-right: 20px;
   transition: background-color 1s;
-}
-
-.Item_selected {
-  background: #75aaf1;
-  color: #fff;
 }
 
 .Item-code {
   padding: 20px 10px 20px 20px;
 }
 
-.Item-title {
+.Item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 20px 10px;
+}
+
+.Item-info {
+  display: flex;
+  gap: 62px;
+  margin-right: 14px;
+  font-size: 18px;
 }
 
 .Item-actions {

@@ -1,21 +1,44 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import './style.css';
+import PropTypes from "prop-types";
+import "./style.css";
+import Button from "../button";
+import { cn as bem } from "@bem-react/classname";
+import { plural } from "../../utils";
 
-function Controls({onAdd}) {
+function Controls({ onClickHandler, quantity, sum }) {
+  const cn = bem("Controls");
   return (
-    <div className='Controls'>
-      <button onClick={() => onAdd()}>Добавить</button>
+    <div className={cn()}>
+      <h2 className={cn("title")}>В корзине:</h2>
+      <div className={cn("info")}>
+        {quantity ? (
+          <>
+            <div className={cn("quantity")}>
+              {`${quantity} ${plural(quantity, {
+                one: "товар",
+                few: "товара",
+                many: "товаров",
+              })} /`}
+            </div>
+            <div className={cn("sum")}>{`${sum} ₽`}</div>
+          </>
+        ) : (
+          "пусто"
+        )}
+      </div>
+      <Button onClickHandler={onClickHandler} title="Перейти" />
     </div>
-  )
+  );
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+  onClickHandler: PropTypes.func,
+  quantity: PropTypes.number,
+  sum: PropTypes.number,
 };
 
 Controls.defaultProps = {
-  onAdd: () => {}
-}
+  onClickHandler: () => {},
+};
 
 export default React.memo(Controls);

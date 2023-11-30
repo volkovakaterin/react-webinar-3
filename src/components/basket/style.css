@@ -1,0 +1,19 @@
+.Basket {
+  width: 960px;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.Basket-total {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 53px;
+  padding: 21px 120px 90px 0;
+}
+
+.Basket-title,
+.Basket-sum {
+  font-size: 18px;
+  font-weight: 700;
+}

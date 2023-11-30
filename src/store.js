@@ -1,4 +1,4 @@
-import {generateCode} from "./utils";
+import { generateCode } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -18,8 +18,8 @@ class Store {
     this.listeners.push(listener);
     // Возвращается функция для удаления добавленного слушателя
     return () => {
-      this.listeners = this.listeners.filter(item => item !== listener);
-    }
+      this.listeners = this.listeners.filter((item) => item !== listener);
+    };
   }
 
   /**
@@ -41,47 +41,58 @@ class Store {
   }
 
   /**
-   * Добавление новой записи
+   * Получение товара по коду
    */
-  addItem() {
-    this.setState({
-      ...this.state,
-      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
-    })
-  };
+  getProduct(code, key) {
+    const product = this.getState()[key].filter((item) => item.code === code);
+    return product[0];
+  }
 
   /**
-   * Удаление записи по коду
-   * @param code
+   * Добавление товара в корзину
    */
-  deleteItem(code) {
-    this.setState({
-      ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
-    })
-  };
+  addProduct(code) {
+    const product = this.getProduct(code, "list");
+    if (
+      this.getState().basket.filter((item) => item.code === code).length > 0
+    ) {
+      this.setState({
+        ...this.state,
+        basket: this.state.basket.map((item) => {
+          if (item.code === code) {
+            return {
+              ...item,
+              sum: item.sum + item.price,
+              quantity: item.quantity + 1,
+            };
+          }
+          return item;
+        }),
+        sum: this.state.sum + product.price,
+      });
+    } else {
+      product.sum = product.price;
+      product.quantity = 1;
+      this.setState({
+        ...this.state,
+        basket: [...this.state.basket, product],
+        sum: this.state.sum + product.price || product.price,
+        quantity: this.state.quantity + 1 || 1,
+      });
+    }
+  }
 
   /**
-   * Выделение записи по коду
-   * @param code
+   * Удаление товара из корзины
    */
-  selectItem(code) {
+  deleteProduct(code) {
+    const product = this.getProduct(code, "basket");
     this.setState({
       ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? {...item, selected: false} : item;
-      })
-    })
+      sum: this.state.sum - product.sum,
+      quantity: this.state.quantity - 1,
+      basket: this.state.basket.filter((product) => product.code !== code),
+    });
   }
 }
 
