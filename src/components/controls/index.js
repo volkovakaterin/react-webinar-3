@@ -20,7 +20,7 @@ function Controls({ onClickHandler, quantity, sum }) {
                 many: "товаров",
               })} /`}
             </div>
-            <div className={cn("sum")}>{`${sum} ₽`}</div>
+            <div className={cn("sum")}>{`${sum.toLocaleString()} ₽`}</div>
           </>
         ) : (
           "пусто"

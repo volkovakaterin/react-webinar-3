@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { cn as bem } from "@bem-react/classname";
-import PropTypes from "prop-types";
+import PropTypes, { number } from "prop-types";
 import "./style.css";
 import Head from "../head";
 import List from "../list";
@@ -22,10 +22,10 @@ function Basket(props) {
         btn={"Удалить"}
         basket={true}
       />
-      {props.sum ? (
+      {props.products.length > 0 ? (
         <div className={cn("total")}>
           <div className={cn("title")}>Итого</div>
-          <div className={cn("sum")}>{`${props.sum} ₽`}</div>
+          <div className={cn("sum")}>{`${props.sum.toLocaleString()} ₽`}</div>
         </div>
       ) : (
         false

@@ -12,7 +12,9 @@ function Item(props) {
       <div className={cn("wrapper")}>
         <div className={cn("title")}>{props.item.title} </div>
         <div className={cn("info")}>
-          <div className={cn("price")}>{`${props.item.price} ₽`}</div>
+          <div
+            className={cn("price")}
+          >{`${props.item.price.toLocaleString()} ₽`}</div>
           {props.basket && (
             <div className={cn("quantity")}>{`${props.item.quantity} шт.`}</div>
           )}
