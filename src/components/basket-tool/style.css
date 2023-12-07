@@ -6,8 +6,13 @@
   font-size: 18px;
 }
 
-.BasketTool-label {
+.BasketTool-home {
+  flex-grow: 1;
 
+  color: #0087e9;
+}
+
+.BasketTool-label {
 }
 
 .BasketTool-total {
