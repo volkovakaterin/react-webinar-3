@@ -7,13 +7,13 @@ import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from "../../components/pagination";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 
 function Main() {
   const store = useStore();
   const [page, setPage] = useState(1);
   const perPage = 10;
-
+  const { title } = useParams();
   useEffect(() => {
     store.actions.catalog.load();
   }, []);
@@ -54,7 +54,7 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title="Магазин" />
+      <Head title={title} />
       <BasketTool
         onOpen={callbacks.openModalBasket}
         amount={select.amount}
@@ -65,7 +65,10 @@ function Main() {
           path="/"
           element={<List list={select.listPag} renderItem={renders.item} />}
         />
-        <Route path={`/product-page/${id}`} element={<ProductPage />} />
+        <Route
+          path={`/product-page/${id}`}
+          element={<ProductPage addToBasket={renders.addToBasket} />}
+        />
       </Routes>
       <Pagination
         itemsQnty={select.count}
