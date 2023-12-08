@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
@@ -9,15 +9,16 @@ function Item(props) {
   const cn = bem("Item");
 
   const callbacks = {
-    onAdd: (e) => props.onAdd(props.item._id),
-    setProductId: (e) => props.setProductId(props.item._id),
+    onAdd: (e) => {
+      e.preventDefault();
+      props.onAdd(props.item._id);
+    },
   };
 
   return (
     <Link
       to={`/product-page/${props.item.title}/${props.item._id}`}
       className={cn()}
-      onClick={callbacks.setProductId}
     >
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn("title")}>{props.item.title}</div>
@@ -36,12 +37,10 @@ Item.propTypes = {
     price: PropTypes.number,
   }).isRequired,
   onAdd: PropTypes.func,
-  setProductId: PropTypes.func,
 };
 
 Item.defaultProps = {
   onAdd: () => {},
-  setProductId: () => {},
 };
 
 export default memo(Item);

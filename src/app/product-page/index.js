@@ -1,16 +1,19 @@
-import { memo, useCallback, useEffect } from "react";
-import BasketTool from "../../components/basket-tool";
+import { memo, useEffect } from "react";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
-import PageLayout from "../../components/page-layout";
-import Head from "../../components/head";
 import { useParams } from "react-router-dom";
+import "./style.css";
 import { cn as bem } from "@bem-react/classname";
 
-function ProductPage(id) {
+function ProductPage({ handlerTitle, addToBasket }) {
+  const { title, id } = useParams();
   const cn = bem("ProductPage");
   const store = useStore();
+  const callbacks = {
+    onTitle: (e) => handlerTitle(title),
+  };
   useEffect(() => {
+    callbacks.onTitle();
     store.actions.catalog.loadProduct(id);
   }, [id]);
 
@@ -18,16 +21,34 @@ function ProductPage(id) {
     product: state.catalog.product,
   }));
 
-  console.log(select.product);
-
   return (
     <div className={cn()}>
-      <div className={cn("description")}></div>
-      <div className={cn("country")}></div>
-      <div className={cn("category")}></div>
-      <div className={cn("year")}></div>
-      <div className={cn("price")}></div>
-      <button className={cn("add")}>Добавить</button>
+      {select.product && (
+        <>
+          <div className={cn("description")}>{select.product.description}</div>
+          <div className={cn("country")}>
+            Страна производитель:{" "}
+            <span>{`${select.product.madeIn.title} (${select.product.madeIn.code})`}</span>
+          </div>
+          <div className={cn("category")}>
+            Категория: <span>{select.product.category.title}</span>
+          </div>
+          <div className={cn("year")}>
+            Год выпуска: <span>{select.product.edition}</span>
+          </div>
+          <div className={cn("price")}>
+            Цена: <span>{select.product.price} ₽</span>
+          </div>
+          <button
+            className={cn("add")}
+            onClick={(e) => {
+              addToBasket(id);
+            }}
+          >
+            Добавить
+          </button>
+        </>
+      )}
     </div>
   );
 }

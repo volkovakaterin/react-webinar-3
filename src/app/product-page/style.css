@@ -1,0 +1,27 @@
+.ProductPage {
+  margin-top: 20px;
+  padding: 0 40px;
+
+  font-size: 18px;
+
+  color: #000;
+}
+
+.ProductPage-country,
+.ProductPage-category,
+.ProductPage-year,
+.ProductPage-price,
+.ProductPage-add {
+  margin-top: 20px;
+}
+
+.ProductPage-country span,
+.ProductPage-category span,
+.ProductPage-year span {
+  font-weight: 700;
+}
+
+.ProductPage-price {
+  font-size: 24px;
+  font-weight: 700;
+}

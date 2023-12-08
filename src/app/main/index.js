@@ -1,60 +1,38 @@
-import { memo, useCallback, useEffect, useState } from "react";
-import Item from "../../components/item";
+import { memo, useCallback, useState } from "react";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import BasketTool from "../../components/basket-tool";
-import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
-import Pagination from "../../components/pagination";
 import { Route, Routes } from "react-router-dom";
 import ProductPage from "../product-page";
 import Home from "../home";
-import { useParams } from "react-router-dom";
 
 function Main() {
   const store = useStore();
-  const { title } = useParams();
-  const [productId, setProductId] = useState(null);
-  // const [page, setPage] = useState(1);
-  // const perPage = 10;
-
-  // store.actions.catalog.countCatalog();
-
-  // useEffect(() => {
-  //   store.actions.catalog.load(page, perPage);
-  // }, [page]);
+  const [title, setTitle] = useState();
 
   const select = useSelector((state) => ({
-    // list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    // countCatalog: state.catalog.countCatalog,
   }));
 
-  console.log(select.list);
-
   const callbacks = {
-    // Добавление в корзину
-    // addToBasket: useCallback(
-    //   (_id) => store.actions.basket.addToBasket(_id),
-    //   [store]
-    // ),
+    //Добавление в корзину
+    addToBasket: useCallback(
+      (_id) => store.actions.basket.addToBasket(_id),
+      [store]
+    ),
     // Открытие модалки корзины
     openModalBasket: useCallback(
       () => store.actions.modals.open("basket"),
       [store]
     ),
-  };
 
-  // const renders = {
-  //   item: useCallback(
-  //     (item) => {
-  //       return <Item item={item} onAdd={callbacks.addToBasket} />;
-  //     },
-  //     [callbacks.addToBasket]
-  //   ),
-  // };
+    handlerTitle: useCallback((title) => {
+      setTitle(title);
+    }, []),
+  };
 
   return (
     <PageLayout>
@@ -69,13 +47,21 @@ function Main() {
           path="/"
           element={
             <>
-              <Home setProductId={setProductId} />
+              <Home
+                handlerTitle={callbacks.handlerTitle}
+                addToBasket={callbacks.addToBasket}
+              />
             </>
           }
         />
         <Route
           path="/product-page/:title/:id"
-          element={<ProductPage id={productId} />}
+          element={
+            <ProductPage
+              handlerTitle={callbacks.handlerTitle}
+              addToBasket={callbacks.addToBasket}
+            />
+          }
         />
       </Routes>
     </PageLayout>
