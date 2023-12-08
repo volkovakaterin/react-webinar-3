@@ -1,0 +1,31 @@
+.Pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin: 22px 21px 0 0;
+}
+
+.Pagination-page {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 1px 3px;
+
+  font-size: 16px;
+
+  color: #000;
+}
+
+.Pagination-page:hover {
+  background-color: #e1e1e1;
+}
+
+.active {
+  background-color: #0087e9;
+}
+
+.Pagination-ellipses {
+  color: #cccccc;
+}
