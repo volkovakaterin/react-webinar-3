@@ -9,7 +9,9 @@
 .BasketTool-home {
   flex-grow: 1;
 
+  text-decoration: none;
   color: #0087e9;
+  text-decoration-line: underline;
 }
 
 .BasketTool-label {

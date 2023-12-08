@@ -11,14 +11,21 @@ class Catalog extends StoreModule {
     return {
       list: [],
       listPag: [],
-      countCatalog: 0,
+      count: null,
+      title: "",
     };
   }
+
+  setTitle = (title) => {
+    this.setState({
+      ...this.getState(),
+      title: title,
+    });
+  };
 
   async load() {
     const response = await fetch("/api/v1/articles?limit=*");
     const json = await response.json();
-    console.log(json);
     this.setState(
       {
         ...this.getState(),
@@ -31,27 +38,17 @@ class Catalog extends StoreModule {
   async loadPag(page, perPage) {
     const numberItem = (page - 1) * 10;
     const response = await fetch(
-      `/api/v1/articles?limit=${perPage}&skip=${numberItem}`
+      `/api/v1/articles?limit=${perPage}&skip=${numberItem}&fields=items(_id, title, price),count`
     );
     const json = await response.json();
     this.setState(
       {
         ...this.getState(),
         listPag: json.result.items,
+        count: json.result.count,
       },
-      "Загружены товары из АПИ"
+      "Пагинация"
     );
-  }
-
-  async countCatalog() {
-    const response = await fetch(
-      "/api/v1/articles?fields=items(_id, title, price),count"
-    );
-    const json = await response.json();
-    this.setState({
-      ...this.getState(),
-      countCatalog: json.result.count,
-    });
   }
 
   async loadProduct(id) {
@@ -59,10 +56,13 @@ class Catalog extends StoreModule {
       `/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`
     );
     const json = await response.json();
-    this.setState({
-      ...this.getState(),
-      product: json.result,
-    });
+    this.setState(
+      {
+        ...this.getState(),
+        product: json.result,
+      },
+      "Загрузка продукта"
+    );
   }
 }
 

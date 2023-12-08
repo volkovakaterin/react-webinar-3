@@ -3,8 +3,6 @@
   justify-content: flex-start;
   transition: background-color 1s;
   padding-left: 10px;
-
-  color: #000000;
 }
 
 .Item_selected {
@@ -20,9 +18,8 @@
   width: 100%;
   padding: 20px 10px;
 
-  color: #000000;
-
   text-decoration: none;
+  color: #000;
 }
 
 .Item-title:hover {

@@ -1,21 +1,15 @@
-import { memo } from "react";
-import { Link } from "react-router-dom";
+import { memo, useState } from "react";
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import { numberFormat } from "../../utils";
 import "./style.css";
+import { Link } from "react-router-dom";
 
 function Item(props) {
   const cn = bem("Item");
 
   const callbacks = {
-    onAdd: (e) => {
-      props.onAdd(props.item._id);
-    },
-    onTitle: (e) => {
-      e.preventDefault();
-      props.handlerTitle(props.item.title);
-    },
+    onAdd: (e) => props.onAdd(props.item._id),
   };
 
   return (
@@ -24,7 +18,7 @@ function Item(props) {
       <Link
         to={`/product-page/${props.item._id}`}
         className={cn("title")}
-        onClick={(e) => callbacks.handlerTitle(e)}
+        onClick={(e) => props.handlerSetTitle(props.item.title)}
       >
         {props.item.title}
       </Link>

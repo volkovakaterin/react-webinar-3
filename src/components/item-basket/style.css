@@ -14,9 +14,8 @@
   width: 100%;
   padding: 20px 10px;
 
-  color: #000000;
-
   text-decoration: none;
+  color: #000;
 }
 
 .ItemBasket-title:hover {
