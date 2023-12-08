@@ -12,13 +12,20 @@ class Catalog extends StoreModule {
       list: [],
       listPag: [],
       count: null,
+      title: "",
     };
   }
+
+  setTitle = (title) => {
+    this.setState({
+      ...this.getState(),
+      title: title,
+    });
+  };
 
   async load() {
     const response = await fetch("/api/v1/articles?limit=*");
     const json = await response.json();
-    console.log(json);
     this.setState(
       {
         ...this.getState(),
@@ -34,7 +41,6 @@ class Catalog extends StoreModule {
       `/api/v1/articles?limit=${perPage}&skip=${numberItem}&fields=items(_id, title, price),count`
     );
     const json = await response.json();
-    console.log(json);
     this.setState(
       {
         ...this.getState(),

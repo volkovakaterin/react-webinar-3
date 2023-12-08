@@ -9,13 +9,14 @@ function ProductPage({ addToBasket }) {
   const { id } = useParams();
   const cn = bem("ProductPage");
   const store = useStore();
-  //   const callbacks = {
-  //     onTitle: (e) => handlerTitle(title),
-  //   };
+
   useEffect(() => {
-    //callbacks.onTitle();
     store.actions.catalog.loadProduct(id);
   }, [id]);
+
+  const callbacks = {
+    onAdd: (e) => addToBasket(id),
+  };
 
   const select = useSelector((state) => ({
     product: state.catalog.product,
@@ -39,12 +40,7 @@ function ProductPage({ addToBasket }) {
           <div className={cn("price")}>
             Цена: <span>{select.product.price} ₽</span>
           </div>
-          <button
-            className={cn("add")}
-            onClick={(e) => {
-              addToBasket(id);
-            }}
-          >
+          <button className={cn("add")} onClick={callbacks.onAdd}>
             Добавить
           </button>
         </>

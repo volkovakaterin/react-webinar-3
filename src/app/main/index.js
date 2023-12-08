@@ -7,15 +7,17 @@ import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from "../../components/pagination";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
+import ProductPage from "../../components/product-page";
 
 function Main() {
   const store = useStore();
+  const location = useLocation().pathname;
   const [page, setPage] = useState(1);
   const perPage = 10;
-  const { title } = useParams();
   useEffect(() => {
     store.actions.catalog.load();
+    store.actions.catalog.setTitle("Магазин");
   }, []);
 
   useEffect(() => {
@@ -26,6 +28,7 @@ function Main() {
     list: state.catalog.list,
     listPag: state.catalog.listPag,
     count: state.catalog.count,
+    title: state.catalog.title,
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));
@@ -41,12 +44,22 @@ function Main() {
       () => store.actions.modals.open("basket"),
       [store]
     ),
+    handlerSetTitle: useCallback(
+      (title) => store.actions.catalog.setTitle(title),
+      [store]
+    ),
   };
 
   const renders = {
     item: useCallback(
       (item) => {
-        return <Item item={item} onAdd={callbacks.addToBasket} />;
+        return (
+          <Item
+            item={item}
+            onAdd={callbacks.addToBasket}
+            handlerSetTitle={callbacks.handlerSetTitle}
+          />
+        );
       },
       [callbacks.addToBasket]
     ),
@@ -54,7 +67,7 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title={title} />
+      <Head title={select.title} />
       <BasketTool
         onOpen={callbacks.openModalBasket}
         amount={select.amount}
@@ -66,16 +79,18 @@ function Main() {
           element={<List list={select.listPag} renderItem={renders.item} />}
         />
         <Route
-          path={`/product-page/${id}`}
-          element={<ProductPage addToBasket={renders.addToBasket} />}
+          path={`/product-page/:id`}
+          element={<ProductPage addToBasket={callbacks.addToBasket} />}
         />
       </Routes>
-      <Pagination
-        itemsQnty={select.count}
-        perPage={perPage}
-        setPage={setPage}
-        currentPage={page}
-      />
+      {location === "/" && (
+        <Pagination
+          itemsQnty={select.count}
+          perPage={perPage}
+          setPage={setPage}
+          currentPage={page}
+        />
+      )}
     </PageLayout>
   );
 }
