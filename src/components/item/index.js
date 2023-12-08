@@ -10,23 +10,29 @@ function Item(props) {
 
   const callbacks = {
     onAdd: (e) => {
-      e.preventDefault();
       props.onAdd(props.item._id);
+    },
+    onTitle: (e) => {
+      e.preventDefault();
+      props.handlerTitle(props.item.title);
     },
   };
 
   return (
-    <Link
-      to={`/product-page/${props.item.title}/${props.item._id}`}
-      className={cn()}
-    >
+    <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
-      <div className={cn("title")}>{props.item.title}</div>
+      <Link
+        to={`/product-page/${props.item._id}`}
+        className={cn("title")}
+        onClick={(e) => callbacks.handlerTitle(e)}
+      >
+        {props.item.title}
+      </Link>
       <div className={cn("actions")}>
         <div className={cn("price")}>{numberFormat(props.item.price)} ₽</div>
         <button onClick={callbacks.onAdd}>Добавить</button>
       </div>
-    </Link>
+    </div>
   );
 }
 

@@ -6,7 +6,7 @@ import BasketTotal from "../../components/basket-total";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 
-function Basket() {
+function Basket({ handlerTitle }) {
   const store = useStore();
 
   const select = useSelector((state) => ({
@@ -33,6 +33,7 @@ function Basket() {
             item={item}
             onRemove={callbacks.removeFromBasket}
             closeModal={callbacks.closeModal}
+            handlerTitle={handlerTitle}
           />
         );
       },

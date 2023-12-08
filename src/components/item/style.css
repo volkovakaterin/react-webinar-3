@@ -4,7 +4,6 @@
   transition: background-color 1s;
   padding-left: 10px;
 
-  text-decoration: none;
   color: #000000;
 }
 
@@ -20,6 +19,14 @@
 .Item-title {
   width: 100%;
   padding: 20px 10px;
+
+  color: #000000;
+
+  text-decoration: none;
+}
+
+.Item-title:hover {
+  text-decoration-line: underline;
 }
 
 .Item-actions {

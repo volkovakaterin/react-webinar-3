@@ -5,15 +5,13 @@ import { useParams } from "react-router-dom";
 import "./style.css";
 import { cn as bem } from "@bem-react/classname";
 
-function ProductPage({ handlerTitle, addToBasket }) {
-  const { title, id } = useParams();
+const ProductPage = memo(({ addToBasket }) => {
+  const { id } = useParams();
   const cn = bem("ProductPage");
   const store = useStore();
-  const callbacks = {
-    onTitle: (e) => handlerTitle(title),
-  };
+
   useEffect(() => {
-    callbacks.onTitle();
+    console.log(id);
     store.actions.catalog.loadProduct(id);
   }, [id]);
 
@@ -51,6 +49,6 @@ function ProductPage({ handlerTitle, addToBasket }) {
       )}
     </div>
   );
-}
+});
 
 export default memo(ProductPage);

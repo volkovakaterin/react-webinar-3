@@ -1,31 +1,34 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect } from "react";
 import Item from "../../components/item";
 import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from "../../components/pagination";
 
-function Home({ handlerTitle, addToBasket }) {
+const Home = memo(({ handlerTitle, addToBasket, page, perPage, setPage }) => {
   const store = useStore();
-  const [page, setPage] = useState(1);
-  const perPage = 10;
+
+  console.log(page, perPage);
+
+  console.log(store);
 
   store.actions.catalog.countCatalog();
 
   useEffect(() => {
-    store.actions.catalog.load(page, perPage);
     handlerTitle("Магазин");
-  }, [page]);
+  }, []);
 
   const select = useSelector((state) => ({
-    list: state.catalog.list,
+    list: state.catalog.listPag,
     countCatalog: state.catalog.countCatalog,
   }));
 
   const renders = {
     item: useCallback(
       (item) => {
-        return <Item item={item} onAdd={addToBasket} />;
+        return (
+          <Item item={item} onAdd={addToBasket} handlerTitle={handlerTitle} />
+        );
       },
       [addToBasket]
     ),
@@ -42,6 +45,6 @@ function Home({ handlerTitle, addToBasket }) {
       />
     </>
   );
-}
+});
 
 export default memo(Home);

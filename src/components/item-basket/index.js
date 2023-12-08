@@ -14,20 +14,24 @@ function ItemBasket(props) {
       props.onRemove(props.item._id);
     },
     closeModal: (e) => {
+      e.preventDefault();
+      props.handlerTitle(props.item.title);
       props.closeModal();
     },
   };
 
   return (
-    <Link
-      to={`/product-page/${props.item.title}/${props.item._id}`}
-      className={cn()}
-      onClick={(e) => {
-        callbacks.closeModal();
-      }}
-    >
+    <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
-      <div className={cn("title")}>{props.item.title}</div>
+      <Link
+        to={`/product-page/${props.item._id}`}
+        className={cn("title")}
+        onClick={(e) => {
+          callbacks.closeModal(e);
+        }}
+      >
+        {props.item.title}
+      </Link>
       <div className={cn("right")}>
         <div className={cn("cell")}>{numberFormat(props.item.price)} ₽</div>
         <div className={cn("cell")}>
@@ -37,7 +41,7 @@ function ItemBasket(props) {
           <button onClick={callbacks.onRemove}>Удалить</button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

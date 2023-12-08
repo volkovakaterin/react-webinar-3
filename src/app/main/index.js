@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, useEffect } from "react";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import BasketTool from "../../components/basket-tool";
@@ -11,6 +11,13 @@ import Home from "../home";
 function Main() {
   const store = useStore();
   const [title, setTitle] = useState();
+  const [page, setPage] = useState(1);
+  const perPage = 10;
+
+  useEffect(() => {
+    store.actions.catalog.load();
+    store.actions.catalog.loadPag(page, perPage);
+  }, [page]);
 
   const select = useSelector((state) => ({
     amount: state.basket.amount,
@@ -50,16 +57,19 @@ function Main() {
               <Home
                 handlerTitle={callbacks.handlerTitle}
                 addToBasket={callbacks.addToBasket}
+                perPage={perPage}
+                setPage={setPage}
+                page={page}
               />
             </>
           }
         />
         <Route
-          path="/product-page/:title/:id"
+          path="/product-page/:id"
           element={
             <ProductPage
-              handlerTitle={callbacks.handlerTitle}
               addToBasket={callbacks.addToBasket}
+              handlerTitle={callbacks.handlerTitle}
             />
           }
         />
