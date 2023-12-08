@@ -8,6 +8,7 @@ import useSelector from "../../store/use-selector";
 import Pagination from "../../components/pagination";
 import { Route, Routes, useLocation } from "react-router-dom";
 import ProductPage from "../../components/product-page";
+import List from "../../components/list";
 
 function Main() {
   const store = useStore();
