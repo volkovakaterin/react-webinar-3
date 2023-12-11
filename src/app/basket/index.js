@@ -23,10 +23,6 @@ function Basket() {
     ),
     // Закрытие любой модалки
     closeModal: useCallback(() => store.actions.modals.close(), [store]),
-    handlerSetTitle: useCallback(
-      (title) => store.actions.catalog.setTitle(title),
-      [store]
-    ),
   };
 
   const renders = {
@@ -36,7 +32,6 @@ function Basket() {
           <ItemBasket
             item={item}
             onRemove={callbacks.removeFromBasket}
-            handlerSetTitle={callbacks.handlerSetTitle}
             onCloseModal={callbacks.closeModal}
           />
         );

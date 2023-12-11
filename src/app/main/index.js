@@ -1,51 +1,43 @@
-import { memo, useCallback, useEffect, useState } from "react";
-import Item from "../../components/item";
+import { memo, useCallback, useEffect } from "react";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import BasketTool from "../../components/basket-tool";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from "../../components/pagination";
-import { Route, Routes, useLocation } from "react-router-dom";
-import ProductPage from "../../components/product-page";
 import List from "../../components/list";
+import Item from "../../components/item";
 
 function Main() {
   const store = useStore();
-  const location = useLocation().pathname;
-  const [page, setPage] = useState(1);
   const perPage = 10;
-  useEffect(() => {
-    store.actions.catalog.load();
-    store.actions.catalog.setTitle("Магазин");
-  }, []);
 
   useEffect(() => {
-    store.actions.catalog.loadPag(page, perPage);
-  }, [page]);
+    store.actions.catalog.loadPag(perPage);
+  }, [store.state.catalog.currentPage]);
 
   const select = useSelector((state) => ({
     list: state.catalog.list,
     listPag: state.catalog.listPag,
     count: state.catalog.count,
-    title: state.catalog.title,
+    currentPage: state.catalog.currentPage,
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));
 
   const callbacks = {
-    // Добавление в корзину
+    //Добавление в корзину
     addToBasket: useCallback(
       (_id) => store.actions.basket.addToBasket(_id),
       [store]
     ),
-    // Открытие модалки корзины
+    //Открытие модалки корзины
     openModalBasket: useCallback(
       () => store.actions.modals.open("basket"),
       [store]
     ),
-    handlerSetTitle: useCallback(
-      (title) => store.actions.catalog.setTitle(title),
+    onSetCurrentPage: useCallback(
+      (number) => store.actions.catalog.setCurrentPage(number),
       [store]
     ),
   };
@@ -53,13 +45,7 @@ function Main() {
   const renders = {
     item: useCallback(
       (item) => {
-        return (
-          <Item
-            item={item}
-            onAdd={callbacks.addToBasket}
-            handlerSetTitle={callbacks.handlerSetTitle}
-          />
-        );
+        return <Item item={item} onAdd={callbacks.addToBasket} />;
       },
       [callbacks.addToBasket]
     ),
@@ -67,30 +53,19 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title={select.title} />
+      <Head title="Магазин" />
       <BasketTool
         onOpen={callbacks.openModalBasket}
         amount={select.amount}
         sum={select.sum}
       />
-      <Routes>
-        <Route
-          path="/"
-          element={<List list={select.listPag} renderItem={renders.item} />}
-        />
-        <Route
-          path={`/product-page/:id`}
-          element={<ProductPage addToBasket={callbacks.addToBasket} />}
-        />
-      </Routes>
-      {location === "/" && (
-        <Pagination
-          itemsQnty={select.count}
-          perPage={perPage}
-          setPage={setPage}
-          currentPage={page}
-        />
-      )}
+      <List list={select.listPag} renderItem={renders.item} />
+      <Pagination
+        itemsQnty={select.count}
+        perPage={perPage}
+        setPage={callbacks.onSetCurrentPage}
+        currentPage={select.currentPage}
+      />
     </PageLayout>
   );
 }

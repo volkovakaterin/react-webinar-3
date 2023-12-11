@@ -1,13 +1,14 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useCallback } from "react";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import { useParams } from "react-router-dom";
-import "./style.css";
-import { cn as bem } from "@bem-react/classname";
+import PageLayout from "../../components/page-layout";
+import Head from "../../components/head";
+import BasketTool from "../../components/basket-tool";
+import Product from "../../components/product";
 
 const ProductPage = memo(({ addToBasket }) => {
   const { id } = useParams();
-  const cn = bem("ProductPage");
   const store = useStore();
 
   useEffect(() => {
@@ -17,37 +18,34 @@ const ProductPage = memo(({ addToBasket }) => {
 
   const select = useSelector((state) => ({
     product: state.catalog.product,
+    title: state.catalog.title,
+    amount: state.basket.amount,
+    sum: state.basket.sum,
   }));
 
+  const callbacks = {
+    //Добавление в корзину
+    addToBasket: useCallback(
+      (_id) => store.actions.basket.addToBasket(_id),
+      [store]
+    ),
+    //Открытие модалки корзины
+    openModalBasket: useCallback(
+      () => store.actions.modals.open("basket"),
+      [store]
+    ),
+  };
+
   return (
-    <div className={cn()}>
-      {select.product && (
-        <>
-          <div className={cn("description")}>{select.product.description}</div>
-          <div className={cn("country")}>
-            Страна производитель:{" "}
-            <span>{`${select.product.madeIn.title} (${select.product.madeIn.code})`}</span>
-          </div>
-          <div className={cn("category")}>
-            Категория: <span>{select.product.category.title}</span>
-          </div>
-          <div className={cn("year")}>
-            Год выпуска: <span>{select.product.edition}</span>
-          </div>
-          <div className={cn("price")}>
-            Цена: <span>{select.product.price} ₽</span>
-          </div>
-          <button
-            className={cn("add")}
-            onClick={(e) => {
-              addToBasket(id);
-            }}
-          >
-            Добавить
-          </button>
-        </>
-      )}
-    </div>
+    <PageLayout>
+      <Head title={select.title} />
+      <BasketTool
+        onOpen={callbacks.openModalBasket}
+        amount={select.amount}
+        sum={select.sum}
+      />
+      <Product addToBasket={callbacks.addToBasket} product={select.product} />
+    </PageLayout>
   );
 });
 

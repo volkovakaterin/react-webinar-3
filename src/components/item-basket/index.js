@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import propTypes from "prop-types";
 import { numberFormat } from "../../utils";
 import { cn as bem } from "@bem-react/classname";
@@ -11,8 +11,7 @@ function ItemBasket(props) {
 
   const callbacks = {
     onRemove: (e) => props.onRemove(props.item._id),
-    followLink: (e) => {
-      props.handlerSetTitle(props.item.title);
+    closeModal: (e) => {
       props.onCloseModal();
     },
   };
@@ -23,7 +22,7 @@ function ItemBasket(props) {
       <Link
         to={`/product-page/${props.item._id}`}
         className={cn("title")}
-        onClick={callbacks.followLink}
+        onClick={callbacks.closeModal}
       >
         {props.item.title}
       </Link>

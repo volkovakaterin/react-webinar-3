@@ -16,6 +16,7 @@
   font-size: 16px;
 
   color: #000;
+  cursor: pointer;
 }
 
 .Pagination-page:hover {
@@ -23,6 +24,7 @@
 }
 
 .active {
+  color: #ffffff;
   background-color: #0087e9;
 }
 

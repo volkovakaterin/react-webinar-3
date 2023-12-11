@@ -13,15 +13,16 @@ class Catalog extends StoreModule {
       listPag: [],
       count: null,
       title: "",
+      currentPage: 1,
     };
   }
 
-  setTitle = (title) => {
+  setCurrentPage(number) {
     this.setState({
       ...this.getState(),
-      title: title,
+      currentPage: number,
     });
-  };
+  }
 
   async load() {
     const response = await fetch("/api/v1/articles?limit=*");
@@ -35,8 +36,9 @@ class Catalog extends StoreModule {
     );
   }
 
-  async loadPag(page, perPage) {
-    const numberItem = (page - 1) * 10;
+  async loadPag(perPage) {
+    const currentPage = this.getState().currentPage;
+    const numberItem = (currentPage - 1) * 10;
     const response = await fetch(
       `/api/v1/articles?limit=${perPage}&skip=${numberItem}&fields=items(_id, title, price),count`
     );
@@ -56,10 +58,12 @@ class Catalog extends StoreModule {
       `/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`
     );
     const json = await response.json();
+    console.log(json);
     this.setState(
       {
         ...this.getState(),
         product: json.result,
+        title: json.result.title,
       },
       "Загрузка продукта"
     );
