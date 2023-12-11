@@ -12,13 +12,12 @@ const ProductPage = memo(({ addToBasket }) => {
   const store = useStore();
 
   useEffect(() => {
-    console.log(id);
-    store.actions.catalog.loadProduct(id);
+    store.actions.product.loadProduct(id);
   }, [id]);
 
   const select = useSelector((state) => ({
-    product: state.catalog.product,
-    title: state.catalog.title,
+    product: state.product.product,
+    title: state.product.title,
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));

@@ -12,7 +12,6 @@ class Catalog extends StoreModule {
       list: [],
       listPag: [],
       count: null,
-      title: "",
       currentPage: 1,
     };
   }
@@ -50,22 +49,6 @@ class Catalog extends StoreModule {
         count: json.result.count,
       },
       "Пагинация"
-    );
-  }
-
-  async loadProduct(id) {
-    const response = await fetch(
-      `/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`
-    );
-    const json = await response.json();
-    console.log(json);
-    this.setState(
-      {
-        ...this.getState(),
-        product: json.result,
-        title: json.result.title,
-      },
-      "Загрузка продукта"
     );
   }
 }
