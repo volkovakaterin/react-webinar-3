@@ -7,7 +7,7 @@ import Head from "../../components/head";
 import BasketTool from "../../components/basket-tool";
 import Product from "../../components/product";
 
-const ProductPage = memo(({ addToBasket }) => {
+const ProductPage = memo(() => {
   const { id } = useParams();
   const store = useStore();
 
@@ -25,7 +25,7 @@ const ProductPage = memo(({ addToBasket }) => {
   const callbacks = {
     //Добавление в корзину
     addToBasket: useCallback(
-      (_id) => store.actions.basket.addToBasket(_id),
+      (id) => store.actions.basket.addToBasket(id),
       [store]
     ),
     //Открытие модалки корзины
