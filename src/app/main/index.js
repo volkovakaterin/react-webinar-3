@@ -8,6 +8,7 @@ import Head from "../../components/head";
 import CatalogFilter from "../../containers/catalog-filter";
 import CatalogList from "../../containers/catalog-list";
 import LocaleSelect from "../../containers/locale-select";
+import Authorization from "../../containers/authorization";
 
 /**
  * Главная страница - первичная загрузка каталога
@@ -19,6 +20,11 @@ function Main() {
     () => {
       store.actions.catalog.initParams();
       store.actions.catalog.getCategories();
+      if (localStorage.getItem("token")) {
+        console.log("token");
+        // store.actions.auth.autoAuth();
+        store.actions.auth.getUser();
+      }
     },
     [],
     true
@@ -28,6 +34,7 @@ function Main() {
 
   return (
     <PageLayout>
+      <Authorization />
       <Head title={t("title")}>
         <LocaleSelect />
       </Head>

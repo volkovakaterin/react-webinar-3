@@ -1,0 +1,27 @@
+.UserProfile {
+  padding-left: 20px;
+}
+
+.UserProfile-title {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.UserProfile-info {
+  margin-top: 30px;
+  padding: 0;
+
+  list-style: none;
+}
+
+.UserProfile-info li {
+  margin-bottom: 20px;
+
+  font-size: 18px;
+}
+
+.UserProfile-info li span:nth-child(2) {
+  font-weight: 700;
+}
