@@ -20,9 +20,7 @@ function Main() {
     () => {
       store.actions.catalog.initParams();
       store.actions.catalog.getCategories();
-      if (localStorage.getItem("token")) {
-        console.log("token");
-        // store.actions.auth.autoAuth();
+      if (!store.state.auth && localStorage.getItem("token")) {
         store.actions.auth.getUser();
       }
     },

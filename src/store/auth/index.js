@@ -15,14 +15,11 @@ class AuthState extends StoreModule {
 
   //Авторизация
   async auth(login, password) {
-    this.setState(
-      {
-        ...this.getState(),
-        error: null,
-        waiting: true,
-      },
-      "Авторизация, сброс состояния"
-    );
+    this.setState({
+      ...this.getState(),
+      error: null,
+      waiting: true,
+    });
 
     try {
       const response = await fetch(`/api/v1/users/sign`, {
@@ -36,24 +33,17 @@ class AuthState extends StoreModule {
           remember: true,
         }),
       });
-      //Ошибка
+      //Ошибка запроса
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData);
-        console.log(errorData.error.message);
-        this.setState(
-          {
-            ...this.getState(),
-            error: errorData.error.message,
-            waiting: false,
-          },
-          "Ошибка авторизации"
-        );
-        throw new Error("Server Error");
+        this.setState({
+          ...this.getState(),
+          error: errorData.error.message,
+          waiting: false,
+        });
       }
       //Успешная авторизация
       const data = await response.json();
-      console.log(data);
       localStorage.setItem("token", data.result.token);
       localStorage.setItem("idUser", data.result.user._id);
       this.setState(
@@ -70,39 +60,22 @@ class AuthState extends StoreModule {
         "Успешная авторизация"
       );
     } catch (error) {
-      this.setState(
-        {
+      if (!(error instanceof Error)) {
+        this.setState({
           ...this.getState(),
           waiting: false,
-        },
-        "Плохая авторизацтя"
-      );
-      if (!(error instanceof Error)) {
+        });
         throw new Error("Server Error");
       }
     }
   }
 
-  // autoAuth() {
-  //   this.setState(
-  //     {
-  //       ...this.getState(),
-  //       auth: true,
-  //     },
-  //     "автоАвторизицая"
-  //   );
-  // }
-
-  //Выход
+  // Выход из аккаунта
   async logout() {
-    this.setState(
-      {
-        ...this.getState(),
-        error: null,
-        waiting: true,
-      },
-      "Выход, начало загрузки"
-    );
+    this.setState({
+      ...this.getState(),
+      waiting: true,
+    });
     try {
       const response = await fetch(`/api/v1/users/sign`, {
         method: "DELETE",
@@ -111,20 +84,14 @@ class AuthState extends StoreModule {
           "X-Token": localStorage.getItem("token"),
         },
       });
-      //Ошибка
+      //Ошибка запроса
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData);
-        console.log(errorData.error.message);
-        this.setState(
-          {
-            ...this.getState(),
-            error: errorData.error.message,
-            waiting: false,
-          },
-          "Ошибка выхода"
-        );
-        throw new Error("Server Error");
+        this.setState({
+          ...this.getState(),
+          error: errorData.error.message,
+          waiting: false,
+        });
       }
       //Токен удален
       localStorage.clear();
@@ -135,29 +102,24 @@ class AuthState extends StoreModule {
         "Токен удален"
       );
     } catch (error) {
-      this.setState(
-        {
+      if (!(error instanceof Error)) {
+        this.setState({
           ...this.getState(),
           waiting: false,
-        },
-        "Ошибка выхода "
-      );
-      if (!(error instanceof Error)) {
+        });
+
         throw new Error("Server Error");
       }
     }
   }
 
-  //Загрузить профиль пользователя
+  //Загрузить данные пользователя
   async getUser() {
-    this.setState(
-      {
-        ...this.getState(),
-        error: null,
-        waiting: true,
-      },
-      "Загрузить профиль пользователя начало загрузки"
-    );
+    this.setState({
+      ...this.getState(),
+      error: null,
+      waiting: true,
+    });
     const id = localStorage.getItem("idUser");
     try {
       const response = await fetch(`/api/v1/users/${id}`, {
@@ -168,52 +130,40 @@ class AuthState extends StoreModule {
         },
       });
 
-      //Ошибка
-      // if (!response.ok) {
-      //   const errorData = await response.json();
-      //   console.log(errorData);
-      //   console.log(errorData.error.message);
-      //   this.setState(
-      //     {
-      //       ...this.getState(),
-      //       error: errorData.error.message,
-      //       waiting: false,
-      //     },
-      //     "Ошибка загрузки юзера"
-      //   );
-      //   throw new Error("Server Error");
-      // }
-
-      //Данные получены
       const data = await response.json();
-      console.log(data);
-      console.log(
-        data.result.user.profile.name,
-        data.result.user.profile.phone,
-        data.result.user.email
-      );
-      this.setState(
-        {
-          ...this.getState(),
-          auth: true,
-          waiting: false,
-          profile: {
-            username: data.result.user.profile.name,
-            phone: data.result.user.profile.phone,
-            email: data.result.user.email,
+
+      //Ошибка запроса
+      if (!response.ok) {
+        this.setState(
+          {
+            ...this.getState(),
+            error: data.error.message,
+            waiting: false,
           },
-        },
-        "Загружен пользователь"
-      );
+          "Ошибка получения пользователя"
+        );
+      } else {
+        //Данные получены
+        this.setState(
+          {
+            ...this.getState(),
+            auth: true,
+            waiting: false,
+            profile: {
+              username: data.result.profile.name,
+              phone: data.result.profile.phone,
+              email: data.result.email,
+            },
+          },
+          "Загружен пользователь"
+        );
+      }
     } catch (error) {
-      this.setState(
-        {
+      if (!(error instanceof Error)) {
+        this.setState({
           ...this.getState(),
           waiting: false,
-        },
-        "Ошибка 2 загрузки пользователя"
-      );
-      if (!(error instanceof Error)) {
+        });
         throw new Error("Server Error");
       }
     }

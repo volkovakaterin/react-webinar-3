@@ -10,24 +10,11 @@ function LoginForm({ onAuth, auth, error }) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  // const handleClick = () => {
-  //   navigate("/profile");
-  // };
-
-  // useEffect(() => {
-  //   if (auth) {
-  //     console.log();
-  //     handleClick();
-  //   }
-  // }, [auth]);
-
   const callbacks = {
     onAuth: (e) => {
       e.preventDefault();
       onAuth(login, password);
-      // if (auth) {
       navigate("/profile");
-      // }
     },
   };
 
