@@ -19,10 +19,7 @@ function Main() {
   useInit(
     () => {
       store.actions.catalog.initParams();
-      store.actions.catalog.getCategories();
-      if (!store.state.auth && localStorage.getItem("token")) {
-        store.actions.auth.getUser();
-      }
+      store.actions.category.getCategories();
     },
     [],
     true

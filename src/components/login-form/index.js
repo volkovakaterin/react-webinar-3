@@ -10,11 +10,17 @@ function LoginForm({ onAuth, auth, error }) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    if (auth) {
+      console.log("go profile");
+      navigate("/profile");
+    }
+  }, [auth]);
+
   const callbacks = {
     onAuth: (e) => {
       e.preventDefault();
       onAuth(login, password);
-      navigate("/profile");
     },
   };
 

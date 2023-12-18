@@ -74,6 +74,7 @@ class AuthState extends StoreModule {
   async logout() {
     this.setState({
       ...this.getState(),
+      auth: false,
       waiting: true,
     });
     try {
@@ -134,14 +135,11 @@ class AuthState extends StoreModule {
 
       //Ошибка запроса
       if (!response.ok) {
-        this.setState(
-          {
-            ...this.getState(),
-            error: data.error.message,
-            waiting: false,
-          },
-          "Ошибка получения пользователя"
-        );
+        this.setState({
+          ...this.getState(),
+          error: data.error.message,
+          waiting: false,
+        });
       } else {
         //Данные получены
         this.setState(
@@ -166,6 +164,13 @@ class AuthState extends StoreModule {
         });
         throw new Error("Server Error");
       }
+    }
+  }
+
+  availableToken() {
+    if (localStorage.getItem("token")) {
+      console.log("kccl");
+      this.getUser();
     }
   }
 }

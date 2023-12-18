@@ -14,15 +14,6 @@ import useInit from "../../hooks/use-init";
 function Profile() {
   const store = useStore();
 
-  useEffect(() => {
-    if (
-      localStorage.getItem("token") &&
-      Object.keys(store.state.auth.profile).length === 0
-    ) {
-      store.actions.auth.getUser();
-    }
-  }, []);
-
   const select = useSelector((state) => ({
     username: state.auth.profile.username,
     phone: state.auth.profile.phone,

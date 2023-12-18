@@ -10,7 +10,6 @@ function AuthHead(props) {
   const navigate = useNavigate();
 
   const callbacks = {
-    //
     onLogout: (e) => {
       e.preventDefault();
       navigate("/login");
@@ -28,11 +27,9 @@ function AuthHead(props) {
           {props.username}
         </Link>
       )}
-      {/* <Link to={"/login"}> */}
       <button className={cn("login")} onClick={callbacks.onLogout}>
         {props.auth ? "Выход" : "Вход"}
       </button>
-      {/* </Link> */}
     </div>
   );
 }
