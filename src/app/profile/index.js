@@ -9,10 +9,17 @@ import LocaleSelect from "../../containers/locale-select";
 import UserProfile from "../../components/user-profile";
 import Authorization from "../../containers/authorization";
 import Spinner from "../../components/spinner";
-import useInit from "../../hooks/use-init";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const store = useStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!store.state.auth.auth) {
+      navigate("/login");
+    }
+  });
 
   const select = useSelector((state) => ({
     username: state.auth.profile.username,

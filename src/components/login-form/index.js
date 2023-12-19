@@ -12,7 +12,6 @@ function LoginForm({ onAuth, auth, error }) {
 
   useEffect(() => {
     if (auth) {
-      console.log("go profile");
       navigate("/profile");
     }
   }, [auth]);

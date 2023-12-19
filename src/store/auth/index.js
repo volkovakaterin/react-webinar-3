@@ -169,7 +169,6 @@ class AuthState extends StoreModule {
 
   availableToken() {
     if (localStorage.getItem("token")) {
-      console.log("kccl");
       this.getUser();
     }
   }
