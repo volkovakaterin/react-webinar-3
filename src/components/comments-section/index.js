@@ -14,16 +14,17 @@ function CommentsSection({ comments, parent, exists }) {
     setReply(id);
   };
 
-  console.log("Комментарии", comments);
-
   return (
     <div className={cn()}>
       <h3 className={cn("title")}>Комментарии({comments.length})</h3>
       {comments &&
         comments.map((comment) => (
-          <>
+          <div
+            className={cn("comment")}
+            key={comment._id}
+            style={{ marginLeft: `${comment.marginLeft}px` }}
+          >
             <Comment
-              key={comment._id}
               comment={comment}
               exists={exists}
               handlerSetReply={handlerSetReply}
@@ -33,9 +34,10 @@ function CommentsSection({ comments, parent, exists }) {
                 parent={comment._id}
                 handlerSetReply={handlerSetReply}
                 theme="comment"
+                articleID={parent}
               />
             )}
-          </>
+          </div>
         ))}
       {!exists ? (
         <div className={cn("signin")}>

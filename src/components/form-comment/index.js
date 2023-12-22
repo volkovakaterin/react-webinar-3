@@ -6,27 +6,24 @@ import Textarea from "../textarea";
 import commentsActions from "../../store-redux/comments/actions";
 import { useDispatch } from "react-redux";
 
-function FormComment({ parent, handlerSetReply, theme }) {
+function FormComment({ parent, handlerSetReply, theme, articleID }) {
   const cn = bem("FormComment");
   const dispatch = useDispatch();
   const [data, setData] = useState({
     text: "",
     parent: { _id: parent, _type: theme },
   });
-  console.log(parent);
   const callbacks = {
-    // Колбэк на ввод в элементах формы
     onChange: useCallback((value) => {
-      console.log(value);
       setData((prevData) => ({ ...prevData, text: value }));
     }, []),
 
-    // Отправка данных формы для авторизации
     onSubmit: useCallback(
       (e) => {
         e.preventDefault();
-        console.log(data);
-        dispatch(commentsActions.add(data));
+        dispatch(
+          commentsActions.add(data, theme === "comment" ? articleID : parent)
+        );
       },
       [data]
     ),

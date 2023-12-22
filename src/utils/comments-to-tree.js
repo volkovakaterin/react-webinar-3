@@ -8,8 +8,6 @@ export default function commentsToTree(list, idArticle, users, key = "_id") {
   let trees = {};
   let roots = {};
   for (const item of list) {
-    console.log(item.parent._tree.length);
-
     const username = users.find((user) => {
       if (user._id === item.author._id) return user;
     });
@@ -27,17 +25,16 @@ export default function commentsToTree(list, idArticle, users, key = "_id") {
 
     // Если элемент имеет родителя, то добавляем его в подчиненные родителя
     if (item.parent._id !== idArticle) {
-      console.log("Если элемент имеет родителя");
       // Если родителя ещё нет в индексе, то индекс создаётся, ведь _id родителя известен
       if (!trees[item.parent._id]) {
-        console.log("Если родителя ещё нет в индексе");
         trees[item.parent[key]] = { children: [] };
       }
       // Добавления в подчиненные родителя
       trees[item.parent[key]].children.push(trees[item[key]]);
-      console.log(trees[item.parent[key]]);
       // Так как элемент добавлен к родителю, то он уже не является корневым
-      if (roots[item[key]]) delete roots[item[key]];
+      if (roots[item[key]]) {
+        delete roots[item[key]];
+      }
     }
   }
   return Object.values(roots);

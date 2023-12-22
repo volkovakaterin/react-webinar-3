@@ -18,6 +18,7 @@ import commentsActions from "../../store-redux/comments/actions";
 import useSelectorHook from "../../hooks/use-selector";
 import commentsToTree from "../../utils/comments-to-tree";
 import usersActions from "../../store-redux/users/actions";
+import treeToList from "../../utils/tree-to-list";
 
 function Article() {
   const store = useStore();
@@ -51,14 +52,14 @@ function Article() {
     shallowequal
   ); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
-  console.log(select.users);
-
   const treeComments = useMemo(
-    () => commentsToTree(select.comments, params.id, select.users),
+    () =>
+      treeToList(
+        commentsToTree(select.comments, params.id, select.users),
+        (item, level) => ({ ...item, marginLeft: 30 * level })
+      ),
     [select.comments]
   );
-
-  console.log(treeComments);
 
   const { t } = useTranslate();
 
@@ -69,8 +70,6 @@ function Article() {
       [store]
     ),
   };
-
-  console.log(params.id);
 
   return (
     <PageLayout>
@@ -88,7 +87,7 @@ function Article() {
       </Spinner>
       <Spinner active={select.waitingComment}>
         <CommentsSection
-          comments={select.comments}
+          comments={treeComments}
           parent={params.id}
           exists={selectStore.exists}
         />

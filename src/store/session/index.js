@@ -46,8 +46,6 @@ class SessionState extends StoreModule {
           "Успешная авторизация"
         );
 
-        console.log(res.data.result.token);
-
         // Запоминаем токен, чтобы потом автоматически аутентифицировать юзера
         window.localStorage.setItem("token", res.data.result.token);
 
