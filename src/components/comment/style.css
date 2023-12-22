@@ -9,6 +9,10 @@
   font-weight: 700;
 }
 
+.Comment-username_gray {
+  color: #666666;
+}
+
 .Comment-date {
   font-size: 12px;
   font-weight: 400;

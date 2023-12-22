@@ -4,7 +4,7 @@ import "./style.css";
 import { useCallback, useState } from "react";
 import correctDate from "../../utils/correct-date";
 
-function Comment({ comment, exists, handlerSetReply }) {
+function Comment({ comment, exists, handlerSetReply, authUser }) {
   const cn = bem("Comment");
 
   const callbacks = {
@@ -18,7 +18,13 @@ function Comment({ comment, exists, handlerSetReply }) {
   return (
     <div className={cn()}>
       <h2 className={cn("title")}>
-        <span className={cn("username")}>{comment.author.name}</span>
+        <span
+          className={cn("username", {
+            gray: authUser.profile.name == comment.author.name,
+          })}
+        >
+          {comment.author.name}
+        </span>
         <span className={cn("date")}>{correctDate(comment.dateCreate)}</span>
       </h2>
       <div className={cn("content")}>{comment.text}</div>

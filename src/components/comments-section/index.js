@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import FormComment from "../form-comment";
 import commentsToTree from "../../utils/comments-to-tree";
 
-function CommentsSection({ comments, parent, exists }) {
+function CommentsSection({ comments, parent, exists, authUser }) {
   const cn = bem("CommentsSection");
   const [reply, setReply] = useState(null);
 
@@ -28,6 +28,7 @@ function CommentsSection({ comments, parent, exists }) {
               comment={comment}
               exists={exists}
               handlerSetReply={handlerSetReply}
+              authUser={authUser}
             />
             {comment._id === reply && (
               <FormComment

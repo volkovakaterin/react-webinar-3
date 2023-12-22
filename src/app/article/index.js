@@ -37,6 +37,7 @@ function Article() {
   const selectStore = useSelectorHook(
     (state) => ({
       exists: state.session.exists,
+      user: state.session.user,
     }),
     shallowequal
   );
@@ -90,6 +91,7 @@ function Article() {
           comments={treeComments}
           parent={params.id}
           exists={selectStore.exists}
+          authUser={selectStore.user}
         />
       </Spinner>
     </PageLayout>

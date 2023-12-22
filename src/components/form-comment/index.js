@@ -13,6 +13,7 @@ function FormComment({ parent, handlerSetReply, theme, articleID }) {
     text: "",
     parent: { _id: parent, _type: theme },
   });
+
   const callbacks = {
     onChange: useCallback((value) => {
       setData((prevData) => ({ ...prevData, text: value }));
