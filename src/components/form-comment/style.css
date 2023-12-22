@@ -1,0 +1,16 @@
+.FormComment {
+  margin: 30px 0 0;
+}
+
+.FormComment-label {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.FormComment-submit {
+  margin: 10px 0 0;
+  padding: 3px 8px 2px 9px;
+}

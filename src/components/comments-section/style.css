@@ -1,0 +1,31 @@
+.CommentsSection {
+  margin-top: 50px;
+  padding: 0 40px;
+
+  color: #000;
+}
+
+.CommentsSection-title {
+  margin: 0 0 25px;
+
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.CommentsSection-signin {
+  display: flex;
+  margin: 30px 0 0;
+}
+
+.CommentsSection-link {
+  font-size: 16px;
+  font-weight: 400;
+
+  text-decoration-line: underline;
+  color: #0087e9;
+}
+
+.CommentsSection-text {
+  font-size: 16px;
+  font-weight: 400;
+}

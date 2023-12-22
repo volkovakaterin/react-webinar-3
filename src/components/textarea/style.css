@@ -1,0 +1,17 @@
+.Textarea {
+  margin: 10px 0 0;
+
+  font-size: 14px;
+
+  border: 1px solid #666;
+  box-shadow: 0px 1px 4px 0px rgba(102, 102, 102, 0.1) inset;
+
+  resize: none;
+}
+
+.Textarea::placeholder {
+  font-size: 14px;
+  font-weight: 400;
+
+  color: #000;
+}
