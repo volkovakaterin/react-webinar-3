@@ -10,7 +10,8 @@
   font-weight: 700;
 }
 
-.FormComment-submit {
-  margin: 10px 0 0;
+.FormComment-submit,
+.FormComment-button {
+  margin: 10px 10px 0 0;
   padding: 3px 8px 2px 9px;
 }

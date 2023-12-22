@@ -1,6 +1,6 @@
 import StoreModule from "../module";
 
-class CommentsState extends StoreModule {
+class UsersState extends StoreModule {
   initState() {
     return {
       data: [],
@@ -9,4 +9,4 @@ class CommentsState extends StoreModule {
   }
 }
 
-export default CommentsState;
+export default UsersState;

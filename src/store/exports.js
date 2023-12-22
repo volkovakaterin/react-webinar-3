@@ -6,3 +6,4 @@ export { default as categories } from "./categories";
 export { default as session } from "./session";
 export { default as profile } from "./profile";
 export { default as comments } from "./comments";
+export { default as users } from "./users";

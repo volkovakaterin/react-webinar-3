@@ -15,6 +15,9 @@ import shallowequal from "shallowequal";
 import articleActions from "../../store-redux/article/actions";
 import CommentsSection from "../../components/comments-section";
 import commentsActions from "../../store-redux/comments/actions";
+import useSelectorHook from "../../hooks/use-selector";
+import commentsToTree from "../../utils/comments-to-tree";
+import usersActions from "../../store-redux/users/actions";
 
 function Article() {
   const store = useStore();
@@ -23,13 +26,19 @@ function Article() {
   // Параметры из пути /articles/:id
 
   const params = useParams();
-  const id = params.id;
 
   useInit(() => {
-    //store.actions.article.load(params.id);
     dispatch(articleActions.load(params.id));
     dispatch(commentsActions.load(params.id));
+    dispatch(usersActions.getUsers());
   }, [params.id]);
+
+  const selectStore = useSelectorHook(
+    (state) => ({
+      exists: state.session.exists,
+    }),
+    shallowequal
+  );
 
   const select = useSelector(
     (state) => ({
@@ -37,12 +46,19 @@ function Article() {
       comments: state.comments.data,
       waiting: state.article.waiting,
       waitingComment: state.comments.waiting,
-      exists: state.session.exists,
+      users: state.users.data,
     }),
     shallowequal
   ); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
-  console.log(select.exists);
+  console.log(select.users);
+
+  const treeComments = useMemo(
+    () => commentsToTree(select.comments, params.id, select.users),
+    [select.comments]
+  );
+
+  console.log(treeComments);
 
   const { t } = useTranslate();
 
@@ -74,7 +90,7 @@ function Article() {
         <CommentsSection
           comments={select.comments}
           parent={params.id}
-          //auth={auth}
+          exists={selectStore.exists}
         />
       </Spinner>
     </PageLayout>

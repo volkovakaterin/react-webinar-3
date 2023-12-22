@@ -8,10 +8,10 @@ function Textarea(props) {
   // Внутренний стейт для быстрого отображения ввода
   const [value, setValue] = useState(props.value);
 
-  // Обработчик изменений в поле
-  const onChange = (event) => {
-    setValue(event.target.value);
-  };
+  // // Обработчик изменений в поле
+  // const onChange = (event) => {
+  //   setValue(event.target.value);
+  // };
 
   // Обновление стейта, если передан новый value
   useLayoutEffect(() => setValue(props.value), [props.value]);
@@ -22,7 +22,9 @@ function Textarea(props) {
       className={cn()}
       value={value}
       placeholder={props.placeholder}
-      onChange={onChange}
+      onChange={(e) => {
+        props.onChange(e.target.value);
+      }}
     />
   );
 }

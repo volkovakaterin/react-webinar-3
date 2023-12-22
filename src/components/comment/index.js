@@ -1,18 +1,30 @@
 import { memo } from "react";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
+import { useCallback, useState } from "react";
+import correctDate from "../../utils/correct-date";
 
-function Comment({ comment }) {
+function Comment({ comment, exists, handlerSetReply }) {
   const cn = bem("Comment");
+
+  const callbacks = {
+    setReply: useCallback(() => {
+      if (exists) {
+        handlerSetReply(comment._id);
+      }
+    }),
+  };
 
   return (
     <div className={cn()}>
       <h2 className={cn("title")}>
-        <span className={cn("username")}>{comment.author._type}</span>
-        <span className={cn("date")}>{comment.dateCreate}</span>
+        <span className={cn("username")}>{comment.author.name}</span>
+        <span className={cn("date")}>{correctDate(comment.dateCreate)}</span>
       </h2>
       <div className={cn("content")}>{comment.text}</div>
-      <button className={cn("reply")}>Ответить</button>
+      <button className={cn("reply")} onClick={callbacks.setReply}>
+        Ответить
+      </button>
     </div>
   );
 }
