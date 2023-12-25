@@ -23,7 +23,7 @@ function Comment({ comment, exists, handlerSetReply, authUser }) {
             gray: authUser._id && authUser._id == comment.author._id,
           })}
         >
-          {comment.author.name}
+          {comment.author.profile.name}
         </span>
         <span className={cn("date")}>{correctDate(comment.dateCreate)}</span>
       </h2>

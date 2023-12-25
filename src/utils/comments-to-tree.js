@@ -4,15 +4,10 @@
  * @param [key] {String} Свойство с первичным ключом
  * @returns {Array} Корневые узлы
  */
-export default function commentsToTree(list, idArticle, users, key = "_id") {
+export default function commentsToTree(list, idArticle, key = "_id") {
   let trees = {};
   let roots = {};
   for (const item of list) {
-    const username = users.find((user) => {
-      if (user._id === item.author._id) return user;
-    });
-    item.author.name = username ? username.profile.name : "user";
-
     // Добавление элемента в индекс узлов и создание свойства children
     if (!trees[item[key]]) {
       trees[item[key]] = item;

@@ -17,7 +17,6 @@ import CommentsSection from "../../components/comments-section";
 import commentsActions from "../../store-redux/comments/actions";
 import useSelectorHook from "../../hooks/use-selector";
 import commentsToTree from "../../utils/comments-to-tree";
-import usersActions from "../../store-redux/users/actions";
 import treeToList from "../../utils/tree-to-list";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -34,7 +33,6 @@ function Article() {
   useInit(() => {
     dispatch(articleActions.load(params.id));
     dispatch(commentsActions.load(params.id));
-    dispatch(usersActions.getUsers());
   }, [params.id]);
 
   const selectStore = useSelectorHook(
@@ -51,17 +49,16 @@ function Article() {
       comments: state.comments.data,
       waiting: state.article.waiting,
       waitingComment: state.comments.waiting,
-      users: state.users.data,
     }),
     shallowequal
   ); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
   const treeComments = useMemo(
     () =>
-      treeToList(
-        commentsToTree(select.comments, params.id, select.users),
-        (item, level) => ({ ...item, marginLeft: level < 5 ? 30 * level : 120 })
-      ),
+      treeToList(commentsToTree(select.comments, params.id), (item, level) => ({
+        ...item,
+        marginLeft: level < 5 ? 30 * level : 120,
+      })),
     [select.comments]
   );
 

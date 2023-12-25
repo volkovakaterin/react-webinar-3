@@ -5,7 +5,8 @@ export const load = (id) => {
 
     try {
       const res = await services.api.request({
-        url: `/api/v1/comments?limit=*&skip=0&fields=*&search[parent]=${id}`,
+        //url: `/api/v1/comments?limit=*&skip=0&fields=*&search[parent]=${id}`,
+        url: `/api/v1/comments?limit=*&skip=0&fields=items(_id,text,dateCreate,author(profile(name)),parent(_id,_type),isDeleted),count&search[parent]=${id}`,
       });
       // Комментарии загружены успешно
       dispatch({
