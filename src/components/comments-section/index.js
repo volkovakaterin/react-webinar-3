@@ -2,9 +2,7 @@ import { memo, useState, useCallback, useEffect, useMemo } from "react";
 import { cn as bem } from "@bem-react/classname";
 import Comment from "../comment";
 import "./style.css";
-import { Link } from "react-router-dom";
 import FormComment from "../form-comment";
-import commentsToTree from "../../utils/comments-to-tree";
 
 function CommentsSection({ comments, parent, exists, authUser, onSignIn }) {
   const cn = bem("CommentsSection");

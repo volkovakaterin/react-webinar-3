@@ -5,7 +5,7 @@ export default {
 
       try {
         const res = await services.api.request({
-          url: `/api/v1/users`,
+          url: `/api/v1/users?limit=*`,
         });
         dispatch({
           type: "users/get-success",
