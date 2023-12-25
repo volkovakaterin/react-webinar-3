@@ -6,12 +6,18 @@ import { Link } from "react-router-dom";
 import FormComment from "../form-comment";
 import commentsToTree from "../../utils/comments-to-tree";
 
-function CommentsSection({ comments, parent, exists, authUser }) {
+function CommentsSection({ comments, parent, exists, authUser, onSignIn }) {
   const cn = bem("CommentsSection");
   const [reply, setReply] = useState(null);
 
   const handlerSetReply = (id) => {
     setReply(id);
+  };
+
+  const callbacks = {
+    signIn: useCallback(() => {
+      onSignIn();
+    }),
   };
 
   return (
@@ -42,9 +48,9 @@ function CommentsSection({ comments, parent, exists, authUser }) {
         ))}
       {!exists ? (
         <div className={cn("signin")}>
-          <Link className={cn("link")} to={"/login"}>
+          <span className={cn("link")} onClick={callbacks.signIn}>
             Войдите
-          </Link>
+          </span>
           <span className={cn("text")}>
             , чтобы иметь возможность комментировать
           </span>

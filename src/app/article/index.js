@@ -19,9 +19,12 @@ import useSelectorHook from "../../hooks/use-selector";
 import commentsToTree from "../../utils/comments-to-tree";
 import usersActions from "../../store-redux/users/actions";
 import treeToList from "../../utils/tree-to-list";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Article() {
   const store = useStore();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useDispatch();
   // Параметры из пути /articles/:id
@@ -57,7 +60,7 @@ function Article() {
     () =>
       treeToList(
         commentsToTree(select.comments, params.id, select.users),
-        (item, level) => ({ ...item, marginLeft: 30 * level })
+        (item, level) => ({ ...item, marginLeft: level < 5 ? 30 * level : 120 })
       ),
     [select.comments]
   );
@@ -70,6 +73,9 @@ function Article() {
       (_id) => store.actions.basket.addToBasket(_id),
       [store]
     ),
+    onSignIn: useCallback(() => {
+      navigate("/login", { state: { back: location.pathname } });
+    }, [location.pathname]),
   };
 
   return (
@@ -92,6 +98,7 @@ function Article() {
           parent={params.id}
           exists={selectStore.exists}
           authUser={selectStore.user}
+          onSignIn={callbacks.onSignIn}
         />
       </Spinner>
     </PageLayout>

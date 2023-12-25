@@ -20,7 +20,7 @@ function Comment({ comment, exists, handlerSetReply, authUser }) {
       <h2 className={cn("title")}>
         <span
           className={cn("username", {
-            gray: authUser.profile.name == comment.author.name,
+            gray: authUser._id && authUser._id == comment.author._id,
           })}
         >
           {comment.author.name}

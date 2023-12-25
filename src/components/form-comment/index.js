@@ -22,9 +22,11 @@ function FormComment({ parent, handlerSetReply, theme, articleID }) {
     onSubmit: useCallback(
       (e) => {
         e.preventDefault();
-        dispatch(
-          commentsActions.add(data, theme === "comment" ? articleID : parent)
-        );
+        if (data.text.trim() !== "") {
+          dispatch(
+            commentsActions.add(data, theme === "comment" ? articleID : parent)
+          );
+        }
       },
       [data]
     ),
